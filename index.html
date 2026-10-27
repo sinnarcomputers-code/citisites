@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="mr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CITISITES Energy Solution — Premium Solar EPC & Engineering</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Ultra-Premium Google Fonts: Luxury Devanagari & Corporate Architectural Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Rozha+One&family=Syne:wght@600;700;800;900&family=Tiro+Devanagari+Marathi:ital@0;1&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome 6 Pro CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Three.js & OrbitControls -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        lux: {
+                            gold: '#f6c944',
+                            amber: '#f59e0b',
+                            bronze: '#d97706',
+                            platinum: '#e2e8f0',
+                            navy: '#050914',
+                            deep: '#03050a',
+                            card: 'rgba(8, 14, 28, 0.72)',
+                            cardBorder: 'rgba(246, 201, 68, 0.22)',
+                            emerald: '#10b981',
+                            cyan: '#06b6d4'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        syne: ['Syne', 'sans-serif'],
+                        marathiSerif: ['"Rozha One"', '"Tiro Devanagari Marathi"', 'serif'],
+                        marathiBody: ['Mukta', 'sans-serif'],
+                        editorial: ['"Tiro Devanagari Marathi"', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Smooth, refined architectural typography & dark-tech aesthetic */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #03050a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f6c944;
+        }
+
+        .font-dev-headline {
+            font-family: 'Rozha One', 'Tiro Devanagari Marathi', serif;
+            letter-spacing: 0.015em;
+            line-height: 1.18;
+        }
+        .font-dev-sub {
+            font-family: 'Tiro Devanagari Marathi', 'Mukta', serif;
+            letter-spacing: 0.02em;
+        }
+        .font-dev-body {
+            font-family: 'Mukta', 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: 0.01em;
+            line-height: 1.65;
+        }
+
+        /* Metallic Luxury Gradients */
+        .gold-metal-text {
+            background: linear-gradient(135deg, #fff2ba 0%, #f6c944 45%, #e69a19 75%, #ffe699 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-metal-badge {
+            background: linear-gradient(135deg, rgba(246, 201, 68, 0.15) 0%, rgba(217, 119, 6, 0.08) 100%);
+            border: 1px solid rgba(246, 201, 68, 0.35);
+        }
+
+        .lux-glass {
+            background: rgba(7, 12, 24, 0.72);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.75);
+        }
+
+        .lux-card-glow {
+            background: rgba(8, 14, 28, 0.82);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(246, 201, 68, 0.28);
+            box-shadow: 0 25px 70px -12px rgba(0, 0, 0, 0.85), inset 0 1px 1px 0 rgba(255, 255, 255, 0.15);
+        }
+
+        /* Subtle luxury shimmer */
+        @keyframes subtleGoldShift {
+            0%, 100% { filter: drop-shadow(0 0 16px rgba(246, 201, 68, 0.35)); }
+            50% { filter: drop-shadow(0 0 28px rgba(246, 201, 68, 0.65)); }
+        }
+        .gold-glow {
+            animation: subtleGoldShift 4s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-lux-deep text-slate-100 font-sans overflow-x-hidden antialiased selection:bg-amber-400 selection:text-black">
+
+    <!-- FIXED 3D WEBGL CANVAS BACKGROUND -->
+    <div id="webgl-container" class="fixed inset-0 w-full h-full z-0 pointer-events-auto">
+        <canvas id="solar-canvas" class="w-full h-full block"></canvas>
+    </div>
+
+    <!-- HIGH-CONTRAST VIGNETTE GRADIENT (Open center window for crisp solar visibility) -->
+    <div class="fixed inset-0 pointer-events-none z-[1] bg-[radial-gradient(ellipse_at_center,_rgba(0,0,0,0)_28%,_rgba(3,5,10,0.85)_100%)]"></div>
+
+    <!-- TOP FIXED NAVIGATION -->
+    <nav class="fixed top-0 left-0 right-0 z-50 px-3 sm:px-8 py-3 transition-all duration-300">
+        <div class="max-w-7xl mx-auto flex items-center justify-between glass-sheet rounded-2xl px-4 sm:px-6 py-2.5">
+            <!-- Brand Logo & Identity (Stacked Layout: Big CITISITES + Small ENERGY SOLUTION below) -->
+            <a href="#hero" class="flex items-center space-x-3.5 group">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-amber-500 via-amber-400 to-yellow-300 flex items-center justify-center shadow-lg shadow-amber-500/25 group-hover:scale-105 transition-transform duration-300 flex-shrink-0">
+                    <i class="fa-solid fa-solar-panel text-slate-950 text-xl"></i>
+                </div>
+                <div class="flex flex-col justify-center">
+                    <!-- Prominent Bold CITISITES -->
+                    <span class="font-heading font-black text-xl sm:text-2xl tracking-wider text-white leading-none">
+                        CITISITES
+                    </span>
+                    <!-- Small, elegant Energy Solution underneath -->
+                    <span class="text-[10px] sm:text-[11px] font-bold tracking-[0.22em] uppercase bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-200 bg-clip-text text-transparent mt-1 leading-none">
+                        ENERGY SOLUTION
+                    </span>
+                    <span class="text-[9px] text-slate-400 tracking-wider font-medium mt-0.5 hidden sm:block">
+                        स्मार्ट रूफटॉप सोलर • High-Yield Solar EPC
+                    </span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <div class="hidden lg:flex items-center space-x-7 text-xs sm:text-sm font-semibold text-slate-300">
+                <a href="#hero" class="hover:text-amber-400 transition-colors" data-lang-key="nav_overview">अवलोकन</a>
+                <a href="#features" class="hover:text-amber-400 transition-colors" data-lang-key="nav_why_us">वैशिष्ट्ये</a>
+                <a href="#packages" class="hover:text-amber-400 transition-colors" data-lang-key="nav_solutions">सोल्युशन्स</a>
+                <a href="#calculator" class="hover:text-amber-400 transition-colors" data-lang-key="nav_calculator">बचत गणक</a>
+                <a href="#contact" class="hover:text-amber-400 transition-colors" data-lang-key="nav_contact">संपर्क</a>
+            </div>
+
+            <!-- Language Switcher & Quick Call Triggers -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Premium Language Switcher Toggle Pill -->
+                <div class="flex items-center rounded-xl bg-slate-900/90 border border-slate-700/80 p-0.5">
+                    <button id="lang-mr-btn" onclick="switchLanguage('mr')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg transition-all duration-200 bg-amber-400 text-slate-950 shadow">
+                        मराठी
+                    </button>
+                    <button id="lang-en-btn" onclick="switchLanguage('en')" class="px-2.5 py-1 text-[11px] font-bold rounded-lg transition-all duration-200 text-slate-400 hover:text-white">
+                        EN
+                    </button>
+                </div>
+
+                <!-- Contact Numbers -->
+                <a href="tel:9075655637" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-xl bg-emerald-500/15 border border-emerald-500/35 text-emerald-300 hover:bg-emerald-500/25 transition-all">
+                    <i class="fa-solid fa-phone text-emerald-400"></i>
+                    <span class="font-mono">9075655637</span>
+                </a>
+                <a href="tel:7770006357" class="hidden xl:flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-xl bg-cyan-500/15 border border-cyan-500/35 text-cyan-300 hover:bg-cyan-500/25 transition-all">
+                    <i class="fa-solid fa-phone text-cyan-400"></i>
+                    <span class="font-mono">7770006357</span>
+                </a>
+                <a href="#contact" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold font-syne bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 text-slate-950 transition-all shadow-lg shadow-amber-500/20 flex items-center gap-1.5">
+                    <span data-lang-key="cta_quote">कोटेशन मिळवा</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- FLOATING 3D VIEWPORT CONTROLLER & LIVE METRICS HUD -->
+    <div class="fixed bottom-6 right-4 sm:right-8 z-40 max-w-[290px] w-full lux-glass rounded-2xl p-4 border border-amber-400/20 shadow-2xl">
+        <div class="flex items-center justify-between mb-2">
+            <span class="text-[10px] uppercase tracking-wider text-slate-300 font-bold flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span data-lang-key="hud_title">3D इन्स्टॉलेशन प्रगती</span>
+            </span>
+            <span id="hud-percentage" class="text-xs font-mono font-black text-amber-400">0%</span>
+        </div>
+
+        <h4 id="hud-stage-name" class="font-dev-sub font-bold text-xs sm:text-sm text-white mb-2 leading-tight truncate">
+            काँक्रीट पायाभरणी (Foundations)
+        </h4>
+
+        <!-- Progress Track -->
+        <div class="w-full bg-slate-800/80 rounded-full h-1.5 mb-3 overflow-hidden">
+            <div id="hud-progress-bar" class="bg-gradient-to-r from-amber-400 via-yellow-400 to-emerald-400 h-1.5 rounded-full transition-all duration-150" style="width: 5%"></div>
+        </div>
+
+        <!-- Telemetry Stats -->
+        <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-700/60 text-left">
+            <div>
+                <p class="text-[10px] text-slate-400 uppercase font-medium" data-lang-key="hud_live_power">ऊर्जा प्रवाह</p>
+                <p id="hud-power" class="text-xs sm:text-sm font-mono font-extrabold text-emerald-400">0.00 kW</p>
+            </div>
+            <div>
+                <p class="text-[10px] text-slate-400 uppercase font-medium" data-lang-key="hud_panels_fixed">प्लेट्स संच</p>
+                <p id="hud-panels-count" class="text-xs sm:text-sm font-mono font-extrabold text-amber-300">0 / 4</p>
+            </div>
+        </div>
+
+        <!-- Interactive 3D Orbit & Viewport Toggles -->
+        <div class="mt-3 pt-2 border-t border-slate-700/60 flex items-center gap-2">
+            <button id="orbit-toggle-btn" class="flex-1 py-1.5 px-2.5 rounded-xl text-[11px] font-bold bg-slate-800/90 hover:bg-slate-700 border border-slate-600 hover:border-amber-400 text-slate-200 transition-all flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-arrows-rotate text-amber-400" id="orbit-icon"></i>
+                <span id="orbit-label" data-lang-key="hud_orbit_btn">३६०° फिरवा</span>
+            </button>
+            <button id="reset-cam-btn" title="Reset View" class="py-1.5 px-3 rounded-xl text-[11px] font-bold bg-slate-800/90 hover:bg-slate-700 border border-slate-600 text-slate-300 hover:text-white transition">
+                <i class="fa-solid fa-video"></i>
+            </button>
+        </div>
+        <p class="text-[10px] text-slate-400 mt-2 text-center font-dev-body" data-lang-key="hud_scroll_hint">
+            खाली स्क्रोल करा • 3D सोलर सिस्टीम जोडली जाईल
+        </p>
+    </div>
+
+    <!-- MAIN SCROLLABLE CONTENT -->
+    <main class="relative z-10">
+
+        <!-- ================= SECTION 0: HERO (0% SCROLL) ================= -->
+        <section id="hero" class="min-h-screen flex items-center px-4 sm:px-8 lg:px-14 py-28">
+            <div class="w-full lg:w-[46%] max-w-xl">
+                <div class="lux-card-glow rounded-3xl p-6 sm:p-9">
+                    
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full gold-metal-badge text-amber-300 text-xs font-bold mb-5">
+                        <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                        <span data-lang-key="hero_badge">अधिकृत टर्नकी सोलर ईपीसी (Solar EPC)</span>
+                    </div>
+
+                    <h1 class="text-3xl sm:text-5xl font-dev-headline font-black tracking-tight text-white mb-5 leading-[1.18]">
+                        <span data-lang-key="hero_title_1">शाश्वत ऊर्जा,</span> <br>
+                        <span class="gold-metal-text gold-glow" data-lang-key="hero_title_2">
+                            आजीवन वीजबिल मुक्ती.
+                        </span>
+                    </h1>
+
+                    <p class="text-sm sm:text-base text-slate-300 font-dev-body leading-relaxed mb-6 font-normal" data-lang-key="hero_desc">
+                        सीटीसाईट्स एनर्जी सोल्युशनसह आपल्या निवासस्थानी वा औद्योगिक प्रकल्पावर अत्याधुनिक सोलर रूफटॉप स्थापित करा. २५ वर्षांची कार्यक्षमता हमी, थेट सरकारी अनुदान आणि शून्य वीजबिलाचा शाश्वत अनुभव.
+                    </p>
+
+                    <!-- Primary Actions -->
+                    <div class="flex flex-wrap items-center gap-3 mb-8">
+                        <a href="#contact" class="px-5 py-3 rounded-xl font-syne font-bold text-xs sm:text-sm bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-400 hover:from-amber-300 hover:to-yellow-300 text-slate-950 transition-all shadow-xl shadow-amber-500/25 flex items-center gap-2">
+                            <span data-lang-key="hero_cta_survey">मोफत साइट सर्व्हे नोंदवा</span>
+                            <i class="fa-solid fa-arrow-down text-xs"></i>
+                        </a>
+                        <a href="https://wa.me/919075655637?text=नमस्कार%20CITISITES%20Energy%20Solution,%20मला%20सोलर%20सिस्टीमबद्दल%20सविस्तर%20माहिती%20हवी%20आहे." target="_blank" class="px-4 py-3 rounded-xl font-syne font-bold text-xs sm:text-sm bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/30 transition-all flex items-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-emerald-400 text-sm"></i>
+                            <span class="font-mono">WhatsApp: 9075655637</span>
+                        </a>
+                    </div>
+
+                    <!-- Highlight Badges -->
+                    <div class="grid grid-cols-3 gap-3 pt-5 border-t border-slate-700/80">
+                        <div>
+                            <div class="text-xl sm:text-2xl font-black font-syne text-white">25 <span class="text-amber-400 text-xs">वर्षे</span></div>
+                            <div class="text-[11px] text-slate-400 font-dev-body" data-lang-key="stat_warranty">पॅनेल वॉरंटी</div>
+                        </div>
+                        <div>
+                            <div class="text-xl sm:text-2xl font-black font-syne text-emerald-400">90%</div>
+                            <div class="text-[11px] text-slate-400 font-dev-body" data-lang-key="stat_savings">वीजबिलात कपात</div>
+                        </div>
+                        <div>
+                            <div class="text-xl sm:text-2xl font-black font-syne text-amber-300">₹78,000</div>
+                            <div class="text-[11px] text-slate-400 font-dev-body" data-lang-key="stat_subsidy">पीएम सूर्य घर अनुदान</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= SECTION 1: WHY CHOOSE CITISITES (20% SCROLL) ================= -->
+        <section id="features" class="min-h-screen flex items-center justify-end px-4 sm:px-8 lg:px-14 py-20">
+            <div class="w-full lg:w-[42%] max-w-xl">
+                <div class="lux-card-glow rounded-3xl p-6 sm:p-8">
+                    
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 font-black text-xs font-mono">
+                            01
+                        </span>
+                        <span class="text-xs uppercase tracking-widest text-amber-400 font-bold font-syne" data-lang-key="sec1_tag">अभियांत्रिकी व विश्वासार्हता</span>
+                    </div>
+
+                    <h2 class="text-2xl sm:text-3xl font-dev-headline font-black text-white mb-3" data-lang-key="sec1_title">
+                        आधुनिक तंत्रज्ञान आणि परिपूर्ण सुरक्षितता
+                    </h2>
+
+                    <p class="text-sm text-slate-300 font-dev-body leading-relaxed mb-5" data-lang-key="sec1_desc">
+                        आम्ही केवळ सोलर प्लेट्स विकत नाही, तर छताचे नुकसान न होऊ देता पुढील २५ वर्षांसाठी सुरळीत ऊर्जा देणारी उच्च अभियांत्रिकी रचना (Structural Engineering) उभारतो.
+                    </p>
+
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-start gap-3 bg-slate-900/70 p-3 rounded-xl border border-slate-800">
+                            <i class="fa-solid fa-layer-group text-amber-400 mt-1"></i>
+                            <div>
+                                <h4 class="text-xs font-bold text-white font-dev-sub" data-lang-key="sec1_f1_t">टियर-१ मोनो-पर्क बायफेशियल तंत्रज्ञान</h4>
+                                <p class="text-[11px] text-slate-400 font-dev-body" data-lang-key="sec1_f1_d">टाटा, वारी, अदानी यांसारख्या सर्वोत्तम आंतरराष्ट्रीय दर्जाच्या ब्रँड्सचा वापर.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 bg-slate-900/70 p-3 rounded-xl border border-slate-800">
+                            <i class="fa-solid fa-umbrella text-emerald-400 mt-1"></i>
+                            <div>
+                                <h4 class="text-xs font-bold text-white font-dev-sub" data-lang-key="sec1_f2_t">छत गळती प्रतिबंधक (Zero Leakage Racking)</h4>
+                                <p class="text-[11px] text-slate-400 font-dev-body" data-lang-key="sec1_f2_d">हॉट-डिप गॅल्व्हनाइज्ड व ॲल्युमिनियम बॅलास्ट स्ट्रक्चरमुळे छताला कोणतेही छिद्र पडत नाही.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-700/80 flex items-center justify-between text-xs">
+                        <span class="text-slate-400 font-dev-body" data-lang-key="sec1_live_tag">3D मध्ये बेस फाउंडेशन लॉक होताना पहा</span>
+                        <span class="text-amber-400 font-bold font-mono">20% ASSEMBLED</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= SECTION 2: TURNKEY EPC SOLUTIONS (45% SCROLL) ================= -->
+        <section id="packages" class="min-h-screen flex items-center px-4 sm:px-8 lg:px-14 py-20">
+            <div class="w-full lg:w-[44%] max-w-xl">
+                <div class="lux-card-glow rounded-3xl p-6 sm:p-8">
+                    
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 font-black text-xs font-mono">
+                            02
+                        </span>
+                        <span class="text-xs uppercase tracking-widest text-amber-400 font-bold font-syne" data-lang-key="sec2_tag">सोलर पॅकेजेस व सोल्यूशन्स</span>
+                    </div>
+
+                    <h2 class="text-2xl sm:text-3xl font-dev-headline font-black text-white mb-3" data-lang-key="sec2_title">
+                        निवासस्थान व उद्योगधंद्यांसाठी अनुकूल पर्याय
+                    </h2>
+
+                    <p class="text-sm text-slate-300 font-dev-body leading-relaxed mb-5" data-lang-key="sec2_desc">
+                        तुमच्या विजेच्या गरजेनुसार ३ किलोवॅटपासून ५०० किलोवॅटपर्यंत संपूर्ण महावितरण नेट-मीटरिंग मंजुरीसह टर्नकी स्थापना.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-3 mb-6">
+                        <div class="bg-slate-900/90 p-3.5 rounded-xl border border-amber-500/30">
+                            <span class="text-[10px] uppercase font-bold text-amber-400 font-mono block">3 kW - 5 kW Residential</span>
+                            <div class="text-base font-bold font-dev-sub text-white mt-1">गृहनिर्माण व बंगले</div>
+                            <div class="text-[11px] text-slate-300 font-dev-body mt-0.5">मासिक ₹३,००० - ₹६,००० बिलावर १००% नियंत्रण.</div>
+                        </div>
+                        <div class="bg-slate-900/90 p-3.5 rounded-xl border border-cyan-500/30">
+                            <span class="text-[10px] uppercase font-bold text-cyan-400 font-mono block">10 kW - 100 kW+ Commercial</span>
+                            <div class="text-base font-bold font-dev-sub text-white mt-1">कारखाने व हॉस्पिटल्स</div>
+                            <div class="text-[11px] text-slate-300 font-dev-body mt-0.5">८०% ॲक्सिलरेटेड डेप्रिसिएशन व प्रचंड नफा.</div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-700/80 flex items-center justify-between text-xs">
+                        <span class="text-slate-400 font-dev-body" data-lang-key="sec2_live_tag">3D मध्ये ॲल्युमिनियम रॅक व अँगल्स अचूक जुळले</span>
+                        <span class="text-amber-400 font-bold font-mono">45% ASSEMBLED</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= SECTION 3: 4-WAY PANEL PRECISION (70% SCROLL) ================= -->
+        <section id="modules-precision" class="min-h-screen flex items-center justify-end px-4 sm:px-8 lg:px-14 py-20">
+            <div class="w-full lg:w-[42%] max-w-xl">
+                <div class="lux-card-glow rounded-3xl p-6 sm:p-8">
+                    
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 font-black text-xs font-mono">
+                            03
+                        </span>
+                        <span class="text-xs uppercase tracking-widest text-amber-400 font-bold font-syne" data-lang-key="sec3_tag">४ दिशांची अचूक रचना</span>
+                    </div>
+
+                    <h2 class="text-2xl sm:text-3xl font-dev-headline font-black text-white mb-3" data-lang-key="sec3_title">
+                        चारही बाजूंनी सुरक्षित लॉक होणारे मॉड्यूल्स
+                    </h2>
+
+                    <p class="text-sm text-slate-300 font-dev-body leading-relaxed mb-5" data-lang-key="sec3_desc">
+                        कमाल सौर ऊर्जेसाठी १८° ते २२° च्या कोनात चारही कोपऱ्यांमधून येऊन अचूक क्लॅम्प होणारे अत्याधुनिक सोलर पॅनेल्स.
+                    </p>
+
+                    <div class="space-y-2.5 text-xs sm:text-sm text-slate-200 font-dev-body mb-6">
+                        <div class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-bolt-lightning text-amber-400 mt-1"></i>
+                            <span data-lang-key="sec3_f1"><strong>कमाल वीजनिर्मिती:</strong> ढगाळ हवामानातही उच्च कार्यक्षमता टिकवून ठेवणारे सिलिकॉन सेल्स.</span>
+                        </div>
+                        <div class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-shield-heart text-cyan-400 mt-1"></i>
+                            <span data-lang-key="sec3_f2"><strong>गारा व वादळरोधक:</strong> ३.२ मिमी टफन्ड ग्लास जे १६० किमी/तास वाऱ्याचा वेग पेलू शकते.</span>
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-700/80 flex items-center justify-between text-xs">
+                        <span class="text-slate-400 font-dev-body" data-lang-key="sec3_live_tag">४ही सोलर प्लेट्स रॅकवर क्लॅम्पने लॉक झाल्या</span>
+                        <span class="text-amber-400 font-bold font-mono">70% ASSEMBLED</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= SECTION 4: SAVINGS CALCULATOR (85% SCROLL) ================= -->
+        <section id="calculator" class="min-h-screen flex items-center px-4 sm:px-8 lg:px-14 py-20">
+            <div class="w-full lg:w-[45%] max-w-xl">
+                <div class="lux-card-glow rounded-3xl p-6 sm:p-8">
+                    
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="w-8 h-8 rounded-xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 font-black text-xs font-mono">
+                            04
+                        </span>
+                        <span class="text-xs uppercase tracking-widest text-cyan-400 font-bold font-syne" data-lang-key="calc_tag">गुंतवणूक व परतावा गणक</span>
+                    </div>
+
+                    <h2 class="text-2xl sm:text-3xl font-dev-headline font-black text-white mb-3" data-lang-key="calc_title">
+                        आपली २५ वर्षांची संभाव्य बचत तपासा
+                    </h2>
+
+                    <p class="text-xs sm:text-sm text-slate-300 font-dev-body leading-relaxed mb-5" data-lang-key="calc_desc">
+                        मासिक बिलाचा स्लाइडर हलवा आणि जाणून घ्या आवश्यक क्षमता, थेट सरकारी अनुदान व २५ वर्षांतील एकूण वीजबिल बचत.
+                    </p>
+
+                    <!-- Interactive Bill Slider -->
+                    <div class="p-4 rounded-2xl bg-slate-900/90 border border-slate-700 mb-5">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-dev-sub text-slate-300" data-lang-key="calc_slider_lbl">मासिक वीजबिल (Monthly Bill):</span>
+                            <span id="slider-val-text" class="text-base font-black font-mono text-amber-400">₹ 3,500</span>
+                        </div>
+                        <input type="range" id="bill-range" min="1000" max="25000" step="500" value="3500" class="w-full accent-amber-400 cursor-pointer">
+                    </div>
+
+                    <!-- Calculated Outputs -->
+                    <div class="grid grid-cols-2 gap-3 mb-6">
+                        <div class="p-3 bg-slate-900/90 rounded-xl border border-slate-800">
+                            <span class="text-[10px] text-slate-400 uppercase font-dev-body block" data-lang-key="calc_rec_cap">शिफारस केलेली क्षमता</span>
+                            <span id="calc-kw" class="text-lg font-black font-mono text-amber-300">3.0 kW</span>
+                        </div>
+                        <div class="p-3 bg-slate-900/90 rounded-xl border border-slate-800">
+                            <span class="text-[10px] text-slate-400 uppercase font-dev-body block" data-lang-key="calc_gov_sub">थेट सरकारी अनुदान</span>
+                            <span id="calc-sub" class="text-lg font-black font-mono text-emerald-400">₹ 78,000</span>
+                        </div>
+                        <div class="col-span-2 p-3.5 bg-slate-900/95 rounded-xl border border-amber-500/30 flex items-center justify-between">
+                            <div>
+                                <span class="text-[10px] text-slate-400 uppercase font-dev-body block" data-lang-key="calc_25yr_save">२५ वर्षांतील अंदाजित बचत</span>
+                                <span id="calc-savings" class="text-xl font-black font-dev-headline text-emerald-400">₹ 9.24 लाख+</span>
+                            </div>
+                            <span class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                                3-4 वर्षे ROI Payback
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-700/80 flex items-center justify-between text-xs">
+                        <span class="text-slate-400 font-dev-body" data-lang-key="calc_live_tag">इन्व्हर्टर सिंक झाला • ऊर्जा प्रवाह सुरू</span>
+                        <span class="text-emerald-400 font-bold font-mono">5.42 kW ACTIVE</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= SECTION 5: CONTACT & ESTIMATE (100% SCROLL) ================= -->
+        <section id="contact" class="min-h-screen flex items-center px-4 sm:px-8 lg:px-14 py-24">
+            <div class="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                
+                <!-- Left: Corporate Contact Cards -->
+                <div class="lg:col-span-5 lux-card-glow rounded-3xl p-6 sm:p-8">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 text-xs font-bold mb-4">
+                        <i class="fa-solid fa-circle-check"></i> <span data-lang-key="contact_plant_ready">सोलर प्लांट १००% कार्यरत!</span>
+                    </div>
+
+                    <h2 class="text-2xl sm:text-3xl font-dev-headline font-black text-white mb-2 leading-tight">
+                        CITISITES Energy Solution
+                    </h2>
+                    <p class="text-xs text-amber-400 font-bold uppercase tracking-wider mb-4 font-dev-sub" data-lang-key="contact_sub_sub">
+                        महाराष्ट्र शासन व केंद्र शासन अधिकृत सोलर इन्स्टॉलेशन
+                    </p>
+
+                    <p class="text-xs sm:text-sm text-slate-300 font-dev-body leading-relaxed mb-6 font-normal" data-lang-key="contact_desc">
+                        आमची इंजिनिअरिंग टीम प्रत्यक्ष आपल्या छतावर येऊन मोफत शैडो अनॅलिसिस व नेट-मीटरिंग पात्रता तपासून संपूर्ण मार्गदर्शन करेल.
+                    </p>
+
+                    <!-- Direct Call & WhatsApp Action Cards -->
+                    <div class="space-y-3 mb-6">
+                        <!-- Number 1: 9075655637 -->
+                        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-amber-500/40 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
+                                    <i class="fa-solid fa-phone text-base"></i>
+                                </div>
+                                <div>
+                                    <span class="text-[10px] text-slate-400 block font-medium uppercase font-dev-body" data-lang-key="contact_c1_title">सल्लागार व प्रकल्प प्रमुख</span>
+                                    <a href="tel:9075655637" class="text-base font-extrabold text-white hover:text-amber-400 transition font-mono tracking-wide">+91 9075655637</a>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <a href="tel:9075655637" class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-300 hover:bg-amber-500 hover:text-slate-950 flex items-center justify-center transition" title="Call Now">
+                                    <i class="fa-solid fa-phone text-xs"></i>
+                                </a>
+                                <a href="https://wa.me/919075655637?text=नमस्कार%20CITISITES%20Energy%20Solution,%20मला%20सोलर%20सिस्टीमबद्दल%20सविस्तर%20माहिती%20हवी%20आहे." target="_blank" class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-slate-950 flex items-center justify-center transition" title="WhatsApp Chat">
+                                    <i class="fa-brands fa-whatsapp text-sm"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Number 2: 7770006357 -->
+                        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-cyan-500/40 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400">
+                                    <i class="fa-solid fa-headset text-base"></i>
+                                </div>
+                                <div>
+                                    <span class="text-[10px] text-slate-400 block font-medium uppercase font-dev-body" data-lang-key="contact_c2_title">तांत्रिक कोटेशन व नेट-मीटरिंग</span>
+                                    <a href="tel:7770006357" class="text-base font-extrabold text-white hover:text-cyan-400 transition font-mono tracking-wide">+91 7770006357</a>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <a href="tel:7770006357" class="w-9 h-9 rounded-xl bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500 hover:text-slate-950 flex items-center justify-center transition" title="Call Now">
+                                    <i class="fa-solid fa-phone text-xs"></i>
+                                </a>
+                                <a href="https://wa.me/917770006357?text=नमस्कार%20CITISITES%20Energy%20Solution,%20मला%20सोलर%20कोटेशन%20हवे%20आहे." target="_blank" class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-slate-950 flex items-center justify-center transition" title="WhatsApp Chat">
+                                    <i class="fa-brands fa-whatsapp text-sm"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-700/80 text-xs text-slate-300 font-dev-body space-y-2">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-check text-emerald-400"></i>
+                            <span data-lang-key="contact_b1">पीएम सूर्य घर योजनेअंतर्गत ₹७८,०००/- थेट बँक खात्यात अनुदान.</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-check text-emerald-400"></i>
+                            <span data-lang-key="contact_b2">महावितरण नेट-मीटर संचलन व अधिकृत मंजुरी प्रक्रिया.</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-check text-emerald-400"></i>
+                            <span data-lang-key="contact_b3">२५ वर्षे लिनिअर परफॉर्मन्स वॉरंटी आणि ५ वर्षे मोफत देखभाल.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Fast Lead Capture Form -->
+                <div class="lg:col-span-7 lux-card-glow rounded-3xl p-6 sm:p-8 relative">
+                    <h3 class="text-xl sm:text-2xl font-dev-headline font-black text-white mb-1" data-lang-key="form_title">
+                        मोफत साइट सर्व्हे व कोटेशन नोंदवा
+                    </h3>
+                    <p class="text-xs text-slate-400 mb-6 font-dev-body" data-lang-key="form_sub">आपली माहिती प्रविष्ट करा, आमचे तज्ज्ञ २४ तासांच्या आत संपर्क साधतील.</p>
+
+                    <form id="solar-lead-form" onsubmit="handleFormSubmission(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1.5 font-dev-body" data-lang-key="form_lbl_name">पूर्ण नाव *</label>
+                                <input type="text" id="f-name" required placeholder="उदा. अमोल देशमुख" class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors font-dev-body">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1.5 font-dev-body" data-lang-key="form_lbl_phone">मोबाइल नंबर *</label>
+                                <input type="tel" id="f-phone" required placeholder="उदा. 9075655637" class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors font-mono">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1.5 font-dev-body" data-lang-key="form_lbl_type">प्रकल्पाचा प्रकार</label>
+                                <select id="f-type" class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400 transition-colors font-dev-body">
+                                    <option value="residential">गृहनिर्माण / बंगला (Residential)</option>
+                                    <option value="commercial">कमर्शियल / कार्यालय (Commercial)</option>
+                                    <option value="industrial">कारखाना / इंडस्ट्री (Industrial)</option>
+                                    <option value="agricultural">कृषी पंप / शेती (Agricultural)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1.5 font-dev-body" data-lang-key="form_lbl_city">शहर / जिल्हा</label>
+                                <input type="text" id="f-city" placeholder="उदा. नाशिक, सिन्नर, पुणे इ." class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors font-dev-body">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full py-3.5 px-6 rounded-xl font-syne font-black text-xs sm:text-sm bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-400 hover:from-amber-300 hover:to-yellow-300 text-slate-950 transition-all duration-300 shadow-xl shadow-amber-500/25 flex items-center justify-center gap-2 cursor-pointer mt-2">
+                            <span data-lang-key="form_btn_submit">मोफत साइट सर्व्हे बुक करा</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </form>
+
+                    <!-- Success Feedback Overlay -->
+                    <div id="form-success-overlay" class="hidden absolute inset-0 lux-card-glow rounded-3xl p-8 flex flex-col items-center justify-center text-center z-20">
+                        <div class="w-16 h-16 rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center text-emerald-400 text-2xl mb-4">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <h4 class="text-2xl font-black font-dev-headline text-white mb-2" data-lang-key="modal_success_title">नोंदणी यशस्वी झाली!</h4>
+                        <p class="text-xs sm:text-sm text-slate-300 max-w-sm mb-5 font-dev-body" data-lang-key="modal_success_desc">CITISITES Energy Solution चे वरिष्ठ सोलर तज्ज्ञ २४ तासांच्या आत <strong>9075655637 / 7770006357</strong> वरून संपर्क करतील.</p>
+                        <div class="flex gap-3 mb-5">
+                            <a href="tel:9075655637" class="px-4 py-2 rounded-xl text-xs font-bold bg-amber-400 text-slate-950 flex items-center gap-1.5 font-mono">
+                                <i class="fa-solid fa-phone"></i> 9075655637
+                            </a>
+                            <a href="tel:7770006357" class="px-4 py-2 rounded-xl text-xs font-bold bg-cyan-400 text-slate-950 flex items-center gap-1.5 font-mono">
+                                <i class="fa-solid fa-phone"></i> 7770006357
+                            </a>
+                        </div>
+                        <button onclick="resetSubmissionForm()" class="px-5 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 transition font-dev-body" data-lang-key="modal_btn_reset">
+                            नवीन नोंदणी करा
+                        </button>
+                    </div>
+        <!-- FOOTER -->
+        <footer class="relative z-10 border-t border-slate-800 bg-[#04060d]/90 py-8 px-4 text-center text-xs text-slate-400">
+            <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 flex-shrink-0">
+                        <i class="fa-solid fa-solar-panel text-base"></i>
+                    </div>
+                    <div class="text-left flex flex-col">
+                        <span class="font-heading font-black text-white text-base tracking-wider leading-none">CITISITES</span>
+                        <span class="text-[10px] font-bold tracking-[0.2em] text-amber-400 uppercase mt-0.5 leading-none">ENERGY SOLUTION</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4 text-xs font-mono font-bold">
+                    <a href="tel:9075655637" class="text-amber-400 hover:underline flex items-center gap-1">
+                        <i class="fa-solid fa-phone"></i> 9075655637
+                    </a>
+                    <span class="text-slate-600">|</span>
+                    <a href="tel:7770006357" class="text-cyan-400 hover:underline flex items-center gap-1">
+                        <i class="fa-solid fa-phone"></i> 7770006357
+                    </a>
+                </div>
+
+                <p class="text-slate-500 text-[11px] font-dev-body">© 2026 CITISITES Energy Solution. All Rights Reserved.</p>
+                <a href="#hero" class="hover:text-amber-400 transition text-slate-300 flex items-center gap-1 font-syne">
+                    <span>TOP</span> <i class="fa-solid fa-arrow-up text-[10px]"></i>
+                </a>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- ================= BILINGUAL DICTIONARY (MARATHI & ENGLISH) ================= -->
+    <script>
+        const TRANSLATIONS = {
+            mr: {
+                nav_overview: "अवलोकन",
+                nav_why_us: "वैशिष्ट्ये",
+                nav_solutions: "सोल्युशन्स",
+                nav_calculator: "बचत गणक",
+                nav_contact: "संपर्क",
+                cta_quote: "कोटेशन मिळवा",
+                hud_title: "3D इन्स्टॉलेशन प्रगती",
+                hud_live_power: "ऊर्जा प्रवाह",
+                hud_panels_fixed: "प्लेट्स संच",
+                hud_orbit_btn: "३६०° फिरवा",
+                hud_orbit_exit: "कंट्रोल बंद करा",
+                hud_scroll_hint: "खाली स्क्रोल करा • 3D सोलर सिस्टीम जोडली जाईल",
+                hero_badge: "अधिकृत टर्नकी सोलर ईपीसी (Solar EPC)",
+                hero_title_1: "शाश्वत ऊर्जा,",
+                hero_title_2: "आजीवन वीजबिल मुक्ती.",
+                hero_desc: "सीटीसाईट्स एनर्जी सोल्युशनसह आपल्या निवासस्थानी वा औद्योगिक प्रकल्पावर अत्याधुनिक सोलर रूफटॉप स्थापित करा. २५ वर्षांची कार्यक्षमता हमी, थेट सरकारी अनुदान आणि शून्य वीजबिलाचा शाश्वत अनुभव.",
+                hero_cta_survey: "मोफत साइट सर्व्हे नोंदवा",
+                stat_warranty: "पॅनेल वॉरंटी",
+                stat_savings: "वीजबिलात कपात",
+                stat_subsidy: "पीएम सूर्य घर अनुदान",
+                sec1_tag: "अभियांत्रिकी व विश्वासार्हता",
+                sec1_title: "आधुनिक तंत्रज्ञान आणि परिपूर्ण सुरक्षितता",
+                sec1_desc: "आम्ही केवळ सोलर प्लेट्स विकत नाही, तर छताचे नुकसान न होऊ देता पुढील २५ वर्षांसाठी सुरळीत ऊर्जा देणारी उच्च अभियांत्रिकी रचना (Structural Engineering) उभारतो.",
+                sec1_f1_t: "टियर-१ मोनो-पर्क बायफेशियल तंत्रज्ञान",
+                sec1_f1_d: "टाटा, वारी, अदानी यांसारख्या सर्वोत्तम आंतरराष्ट्रीय दर्जाच्या ब्रँड्सचा वापर.",
+                sec1_f2_t: "छत गळती प्रतिबंधक (Zero Leakage Racking)",
+                sec1_f2_d: "हॉट-डिप गॅल्व्हनाइज्ड व ॲल्युमिनियम बॅलास्ट स्ट्रक्चरमुळे छताला कोणतेही छिद्र पडत नाही.",
+                sec1_live_tag: "3D मध्ये बेस फाउंडेशन लॉक होताना पहा",
+                sec2_tag: "सोलर पॅकेजेस व सोल्यूशन्स",
+                sec2_title: "निवासस्थान व उद्योगधंद्यांसाठी अनुकूल पर्याय",
+                sec2_desc: "तुमच्या विजेच्या गरजेनुसार ३ किलोवॅटपासून ५०० किलोवॅटपर्यंत संपूर्ण महावितरण नेट-मीटरिंग मंजुरीसह टर्नकी स्थापना.",
+                sec2_live_tag: "3D मध्ये ॲल्युमिनियम रॅक व अँगल्स अचूक जुळले",
+                sec3_tag: "४ दिशांची अचूक रचना",
+                sec3_title: "चारही बाजूंनी सुरक्षित लॉक होणारे मॉड्यूल्स",
+                sec3_desc: "कमाल सौर ऊर्जेसाठी १८° ते २२° च्या कोनात चारही कोपऱ्यांमधून येऊन अचूक क्लॅम्प होणारे अत्याधुनिक सोलर पॅनेल्स.",
+                sec3_f1: "<strong>कमाल वीजनिर्मिती:</strong> ढगाळ हवामानातही उच्च कार्यक्षमता टिकवून ठेवणारे सिलिकॉन सेल्स.",
+                sec3_f2: "<strong>गारा व वादळरोधक:</strong> ३.२ मिमी टफन्ड ग्लास जे १६० किमी/तास वाऱ्याचा वेग पेलू शकते.",
+                sec3_live_tag: "४ही सोलर प्लेट्स रॅकवर क्लॅम्पने लॉक झाल्या",
+                calc_tag: "गुंतवणूक व परतावा गणक",
+                calc_title: "आपली २५ वर्षांची संभाव्य बचत तपासा",
+                calc_desc: "मासिक बिलाचा स्लाइडर हलवा आणि जाणून घ्या आवश्यक क्षमता, थेट सरकारी अनुदान व २५ वर्षांतील एकूण वीजबिल बचत.",
+                calc_slider_lbl: "मासिक वीजबिल (Monthly Bill):",
+                calc_rec_cap: "शिफारस केलेली क्षमता",
+                calc_gov_sub: "थेट सरकारी अनुदान",
+                calc_25yr_save: "२५ वर्षांतील अंदाजित बचत",
+                calc_live_tag: "इन्व्हर्टर सिंक झाला • ऊर्जा प्रवाह सुरू",
+                contact_plant_ready: "सोलर प्लांट १००% कार्यरत!",
+                contact_sub_sub: "महाराष्ट्र शासन व केंद्र शासन अधिकृत सोलर इन्स्टॉलेशन",
+                contact_desc: "आमची इंजिनिअरिंग टीम प्रत्यक्ष आपल्या छतावर येऊन मोफत शैडो अनॅलिसिस व नेट-मीटरिंग पात्रता तपासून संपूर्ण मार्गदर्शन करेल.",
+                contact_c1_title: "सल्लागार व प्रकल्प प्रमुख",
+                contact_c2_title: "तांत्रिक कोटेशन व नेट-मीटरिंग",
+                contact_b1: "पीएम सूर्य घर योजनेअंतर्गत ₹७८,०००/- थेट बँक खात्यात अनुदान.",
+                contact_b2: "महावितरण नेट-मीटर संचलन व अधिकृत मंजुरी प्रक्रिया.",
+                contact_b3: "२५ वर्षे लिनिअर परफॉर्मन्स वॉरंटी आणि ५ वर्षे मोफत देखभाल.",
+                form_title: "मोफत साइट सर्व्हे व कोटेशन नोंदवा",
+                form_sub: "आपली माहिती प्रविष्ट करा, आमचे तज्ज्ञ २४ तासांच्या आत संपर्क साधतील.",
+                form_lbl_name: "पूर्ण नाव *",
+                form_lbl_phone: "मोबाइल नंबर *",
+                form_lbl_type: "प्रकल्पाचा प्रकार",
+                form_lbl_city: "शहर / जिल्हा",
+                form_btn_submit: "मोफत साइट सर्व्हे बुक करा",
+                modal_success_title: "नोंदणी यशस्वी झाली!",
+                modal_success_desc: "CITISITES Energy Solution चे वरिष्ठ सोलर तज्ज्ञ २४ तासांच्या आत <strong>9075655637 / 7770006357</strong> वरून संपर्क करतील.",
+                modal_btn_reset: "नवीन नोंदणी करा"
+            },
+            en: {
+                nav_overview: "Overview",
+                nav_why_us: "Features",
+                nav_solutions: "Solutions",
+                nav_calculator: "Calculator",
+                nav_contact: "Contact",
+                cta_quote: "Get Quote",
+                hud_title: "3D Installation Progress",
+                hud_live_power: "Power Flow",
+                hud_panels_fixed: "Panels Fixed",
+                hud_orbit_btn: "360° Rotate",
+                hud_orbit_exit: "Exit 360°",
+                hud_scroll_hint: "Scroll down • 3D Solar System Assembles",
+                hero_badge: "Authorized Turnkey Solar EPC Partner",
+                hero_title_1: "Sustainable Power,",
+                hero_title_2: "Lifetime Zero Electric Bills.",
+                hero_desc: "Power your residential bungalow or industrial enterprise with state-of-the-art rooftop solar systems engineered by CITISITES Energy Solution. 25-year performance warranty, direct PM Surya Ghar subsidy, and unmatched reliability.",
+                hero_cta_survey: "Schedule Free Site Survey",
+                stat_warranty: "Panel Warranty",
+                stat_savings: "Bill Reduction",
+                stat_subsidy: "PM Surya Subsidy",
+                sec1_tag: "Engineering & Reliability",
+                sec1_title: "Precision Engineering & Zero Roof Leakage",
+                sec1_desc: "We don't merely install solar panels—we construct high-tensile structural engineering tailored to withstand extreme weather for over 25+ years.",
+                sec1_f1_t: "Tier-1 Mono-PERC Bi-Facial Cells",
+                sec1_f1_d: "Authorized deployments with Tata Solar, Waaree, Adani, and Growatt.",
+                sec1_f2_t: "Zero-Penetration Roof Ballasts",
+                sec1_f2_d: "Hot-dip galvanized & anodized aluminum frame structure avoids drill holes.",
+                sec1_live_tag: "Watch concrete foundation pads lock in 3D",
+                sec2_tag: "Solar EPC Packages",
+                sec2_title: "Custom Solutions for Residential & Commercial",
+                sec2_desc: "Tailored solar installations from 3 kW to 500 kW+ with full MSEDCL net-metering sanctions and grid synchronizations.",
+                sec2_live_tag: "Aluminum rafters & cross-struts aligned in 3D",
+                sec3_tag: "4-Way Precision Assembly",
+                sec3_title: "4-Direction Aerodynamic Module Fly-In",
+                sec3_desc: "High-efficiency photovoltaic modules glide in from four distinct cardinal vectors and lock securely onto the rails at an optimal 18°-22° tilt angle.",
+                sec3_f1: "<strong>High Generation:</strong> Superior low-light performance during monsoon & overcast conditions.",
+                sec3_f2: "<strong>Hail & Wind Resistant:</strong> 3.2mm tempered ARC glass certified up to 160 km/h storm winds.",
+                sec3_live_tag: "4 solar modules locked onto rails with clamps",
+                calc_tag: "Investment & ROI Estimator",
+                calc_title: "Calculate Your 25-Year Solar Savings",
+                calc_desc: "Adjust your current monthly electricity bill to calculate recommended plant capacity, government subsidy, and estimated lifetime returns.",
+                calc_slider_lbl: "Monthly Electricity Bill:",
+                calc_rec_cap: "Recommended Size",
+                calc_gov_sub: "Direct Govt Subsidy",
+                calc_25yr_save: "Estimated 25-Yr Savings",
+                calc_live_tag: "Inverter synchronized • Energy flow active",
+                contact_plant_ready: "Solar Plant 100% Commissioned!",
+                contact_sub_sub: "Authorized Central & State Rooftop Solar EPC",
+                contact_desc: "Our senior photovoltaic engineers will conduct a comprehensive on-site shadow analysis, structural review, and net-metering feasibility survey.",
+                contact_c1_title: "Consulting & Project Head",
+                contact_c2_title: "Engineering & Net-Metering",
+                contact_b1: "Direct ₹78,000/- subsidy credited to your bank account via PM Surya Ghar.",
+                contact_b2: "End-to-end MSEDCL / MSEB Net-Meter application and commissioning.",
+                contact_b3: "25 Years Linear Performance Warranty with 5 Years Free Comprehensive AMC.",
+                form_title: "Book Free Site Survey & Custom Quote",
+                form_sub: "Submit your details and our solar team will get in touch within 24 hours.",
+                form_lbl_name: "Full Name *",
+                form_lbl_phone: "Mobile Number *",
+                form_lbl_type: "Project Type",
+                form_lbl_city: "City / Location",
+                form_btn_submit: "Book Free Site Survey",
+                modal_success_title: "Request Received Successfully!",
+                modal_success_desc: "Senior solar engineers from CITISITES Energy Solution will reach out to you within 24 hours from <strong>9075655637 / 7770006357</strong>.",
+                modal_btn_reset: "Submit Another Request"
+            }
+        };
+
+        let currentLang = 'mr';
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+            const dict = TRANSLATIONS[lang];
+
+            // Update UI elements with data-lang-key
+            document.querySelectorAll('[data-lang-key]').forEach(el => {
+                const key = el.getAttribute('data-lang-key');
+                if (dict[key]) {
+                    el.innerHTML = dict[key];
+                }
+            });
+
+            // Update Toggle Button styles
+            const mrBtn = document.getElementById('lang-mr-btn');
+            const enBtn = document.getElementById('lang-en-btn');
+
+            if (lang === 'mr') {
+                mrBtn.className = "px-2.5 py-1 text-[11px] font-bold rounded-lg transition-all duration-200 bg-amber-400 text-slate-950 shadow";
+                enBtn.className = "px-2.5 py-1 text-[11px] font-bold rounded-lg transition-all duration-200 text-slate-400 hover:text-white";
+                document.documentElement.lang = "mr";
+            } else {
+                enBtn.className = "px-2.5 py-1 text-[11px] font-bold rounded-lg transition-all duration-200 bg-amber-400 text-slate-950 shadow";
+                mrBtn.className = "px-2.5 py-1 text-[11px] font-bold rounded-lg transition-all duration-200 text-slate-400 hover:text-white";
+                document.documentElement.lang = "en";
+            }
+
+            // Refresh Calculator Output Texts
+            updateCalculations();
+        }
+    </script>
+
+    <!-- ================= THREE.JS 3D SCENE & SCROLL ASSEMBLY ENGINE ================= -->
+    <script>
+        let scene, camera, renderer, controls;
+        let isOrbitActive = false;
+
+        // Assembly Hierarchy Groups
+        const foundationGroup = new THREE.Group();
+        const frameworkGroup = new THREE.Group();
+        const panelsGroup = new THREE.Group();
+        const inverterGroup = new THREE.Group();
+        let particlePoints, particleGeo;
+
+        // 4 Flying Panels Configuration & References
+        const panels = [];
+
+        // Scroll Tracking
+        let currentScroll = 0;
+        let targetScroll = 0;
+
+        // Default Camera Target Positions
+        const defaultCamPos = new THREE.Vector3(2.2, 4.8, 11.5);
+        const defaultCamLook = new THREE.Vector3(0, -0.2, 0);
+
+        function init3D() {
+            const container = document.getElementById('webgl-container');
+            const canvas = document.getElementById('solar-canvas');
+
+            // 1. Scene with crystal clear dark fog
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x03050a, 0.022);
+
+            // 2. Camera Setup
+            camera = new THREE.PerspectiveCamera(44, window.innerWidth / window.innerHeight, 0.1, 100);
+            camera.position.copy(defaultCamPos);
+
+            // 3. Renderer with high contrast ACES Filmic Tone Mapping
+            renderer = new THREE.WebGLRenderer({
+                canvas: canvas,
+                antialias: true,
+                alpha: true,
+                powerPreference: 'high-performance'
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.35;
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+            // 4. STUDIO LIGHTING SETUP
+            const ambient = new THREE.AmbientLight(0xdbeafe, 1.15);
+            scene.add(ambient);
+
+            // Primary Sun Key Light (Directional with sharp drop shadows)
+            const sunLight = new THREE.DirectionalLight(0xfffaed, 3.4);
+            sunLight.position.set(9, 16, 12);
+            sunLight.castShadow = true;
+            sunLight.shadow.mapSize.width = 2048;
+            sunLight.shadow.mapSize.height = 2048;
+            sunLight.shadow.camera.near = 0.5;
+            sunLight.shadow.camera.far = 40;
+            sunLight.shadow.camera.left = -7;
+            sunLight.shadow.camera.right = 7;
+            sunLight.shadow.camera.top = 7;
+            sunLight.shadow.camera.bottom = -7;
+            sunLight.shadow.bias = -0.0004;
+            scene.add(sunLight);
+
+            // Secondary Cool Rim Light (Sharp edge highlights for aluminum frames)
+            const rimLight = new THREE.DirectionalLight(0x38bdf8, 1.9);
+            rimLight.position.set(-12, 8, -9);
+            scene.add(rimLight);
+
+            // Studio Spotlight
+            const spotLight = new THREE.SpotLight(0xfff7ed, 2.5, 30, Math.PI / 4, 0.4, 1.2);
+            spotLight.position.set(0, 12, 4);
+            spotLight.target.position.set(0, 0, 0);
+            scene.add(spotLight);
+            scene.add(spotLight.target);
+
+            // 5. OrbitControls
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.enabled = false;
+            controls.maxPolarAngle = Math.PI / 2 + 0.02;
+            controls.minDistance = 4.5;
+            controls.maxDistance = 22;
+
+            // 6. Build High-Contrast Models
+            buildRoofBase();
+            buildFoundationPillars();
+            buildGalvanizedRack();
+            buildPhotovoltaicPanels();
+            buildInverterAndConduits();
+            buildEnergyFlowParticles();
+
+            scene.add(foundationGroup);
+            scene.add(frameworkGroup);
+            scene.add(panelsGroup);
+            scene.add(inverterGroup);
+
+            // 7. Event Handlers
+            window.addEventListener('resize', onWindowResize);
+            window.addEventListener('scroll', handleScroll, { passive: true });
+
+            document.getElementById('orbit-toggle-btn').addEventListener('click', toggleOrbit);
+            document.getElementById('reset-cam-btn').addEventListener('click', resetCamera);
+            document.getElementById('bill-range').addEventListener('input', updateCalculations);
+
+            handleScroll();
+            updateCalculations();
+            animate();
+        }
+
+        // ================= BUILD ROOFTOP SLAB =================
+        function buildRoofBase() {
+            const slabGeo = new THREE.BoxGeometry(11, 0.45, 9);
+            const slabMat = new THREE.MeshStandardMaterial({
+                color: 0x141c2b,
+                roughness: 0.75,
+                metalness: 0.15
+            });
+            const slab = new THREE.Mesh(slabGeo, slabMat);
+            slab.position.y = -1.6;
+            slab.receiveShadow = true;
+            scene.add(slab);
+
+            const edgeGeo = new THREE.BoxGeometry(11.2, 0.15, 9.2);
+            const edgeMat = new THREE.MeshStandardMaterial({
+                color: 0x24334a,
+                roughness: 0.5,
+                metalness: 0.3
+            });
+            const edge = new THREE.Mesh(edgeGeo, edgeMat);
+            edge.position.y = -1.35;
+            scene.add(edge);
+        }
+
+        // ================= BUILD FOUNDATION PILLARS =================
+        function buildFoundationPillars() {
+            const blockGeo = new THREE.BoxGeometry(0.8, 0.4, 0.8);
+            const blockMat = new THREE.MeshStandardMaterial({
+                color: 0x94a3b8,
+                roughness: 0.85,
+                metalness: 0.05
+            });
+
+            const coords = [
+                [-2.3, -1.2, -1.9],
+                [ 2.3, -1.2, -1.9],
+                [-2.3, -1.2,  1.9],
+                [ 2.3, -1.2,  1.9]
+            ];
+
+            coords.forEach(pt => {
+                const block = new THREE.Mesh(blockGeo, blockMat);
+                block.position.set(pt[0], pt[1], pt[2]);
+                block.castShadow = true;
+                block.receiveShadow = true;
+                foundationGroup.add(block);
+            });
+        }
+
+        // ================= BUILD ALUMINUM RACKING =================
+        function buildGalvanizedRack() {
+            const aluMat = new THREE.MeshStandardMaterial({
+                color: 0xf8fafc,
+                metalness: 0.94,
+                roughness: 0.16
+            });
+
+            // Columns
+            const frontColGeo = new THREE.CylinderGeometry(0.07, 0.07, 0.65, 16);
+            const fc1 = new THREE.Mesh(frontColGeo, aluMat); fc1.position.set(-2.3, -0.68, 1.9);
+            const fc2 = new THREE.Mesh(frontColGeo, aluMat); fc2.position.set( 2.3, -0.68, 1.9);
+
+            const backColGeo = new THREE.CylinderGeometry(0.07, 0.07, 1.65, 16);
+            const bc1 = new THREE.Mesh(backColGeo, aluMat); bc1.position.set(-2.3, -0.18, -1.9);
+            const bc2 = new THREE.Mesh(backColGeo, aluMat); bc2.position.set( 2.3, -0.18, -1.9);
+
+            // Trusses
+            const trussGeo = new THREE.BoxGeometry(0.12, 0.1, 4.0);
+            const t1 = new THREE.Mesh(trussGeo, aluMat); t1.position.set(-2.3, -0.42, 0); t1.rotation.x = 0.26;
+            const t2 = new THREE.Mesh(trussGeo, aluMat); t2.position.set( 2.3, -0.42, 0); t2.rotation.x = 0.26;
+
+            // Rails
+            const railGeo = new THREE.BoxGeometry(5.4, 0.1, 0.14);
+            const r1 = new THREE.Mesh(railGeo, aluMat); r1.position.set(0, 0.08, -1.35); r1.rotation.x = 0.26;
+            const r2 = new THREE.Mesh(railGeo, aluMat); r2.position.set(0, -0.25, -0.05); r2.rotation.x = 0.26;
+            const r3 = new THREE.Mesh(railGeo, aluMat); r3.position.set(0, -0.58,  1.25); r3.rotation.x = 0.26;
+
+            [fc1, fc2, bc1, bc2, t1, t2, r1, r2, r3].forEach(mesh => {
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+                frameworkGroup.add(mesh);
+            });
+        }
+
+        // ================= BUILD PHOTOVOLTAIC PANELS =================
+        function makePhotovoltaicPanel() {
+            const panelAssembly = new THREE.Group();
+
+            const frameGeo = new THREE.BoxGeometry(2.45, 0.07, 1.5);
+            const frameMat = new THREE.MeshStandardMaterial({
+                color: 0x1e293b,
+                metalness: 0.9,
+                roughness: 0.25
+            });
+            const frame = new THREE.Mesh(frameGeo, frameMat);
+            frame.castShadow = true;
+            panelAssembly.add(frame);
+
+            // Photovoltaic Silicon Wafer Grid
+            const waferGeo = new THREE.PlaneGeometry(2.38, 1.42);
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 512;
+            const ctx = canvas.getContext('2d');
+
+            const grad = ctx.createLinearGradient(0, 0, 512, 512);
+            grad.addColorStop(0, '#0a2342');
+            grad.addColorStop(1, '#031024');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, 512, 512);
+
+            ctx.strokeStyle = 'rgba(219, 234, 254, 0.5)';
+            ctx.lineWidth = 1.5;
+            for (let x = 0; x <= 512; x += 32) {
+                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 512); ctx.stroke();
+            }
+            for (let y = 0; y <= 512; y += 42) {
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(512, y); ctx.stroke();
+            }
+
+            ctx.fillStyle = '#f8fafc';
+            ctx.fillRect(110, 0, 4, 512);
+            ctx.fillRect(256, 0, 4, 512);
+            ctx.fillRect(402, 0, 4, 512);
+
+            const texture = new THREE.CanvasTexture(canvas);
+            const waferMat = new THREE.MeshStandardMaterial({
+                map: texture,
+                color: 0x1e40af,
+                roughness: 0.12,
+                metalness: 0.72,
+                bumpMap: texture,
+                bumpScale: 0.007
+            });
+            const wafer = new THREE.Mesh(waferGeo, waferMat);
+            wafer.rotation.x = -Math.PI / 2;
+            wafer.position.y = 0.04;
+            panelAssembly.add(wafer);
+
+            // Protective Glass Layer
+            const glassGeo = new THREE.PlaneGeometry(2.4, 1.44);
+            const glassMat = new THREE.MeshPhysicalMaterial({
+                color: 0xffffff,
+                transparent: true,
+                opacity: 0.28,
+                roughness: 0.02,
+                metalness: 0.1,
+                clearcoat: 1.0,
+                clearcoatRoughness: 0.05
+            });
+            const glass = new THREE.Mesh(glassGeo, glassMat);
+            glass.rotation.x = -Math.PI / 2;
+            glass.position.y = 0.045;
+            panelAssembly.add(glass);
+
+            return panelAssembly;
+        }
+
+        function buildPhotovoltaicPanels() {
+            const tilt = 0.26;
+
+            const configs = [
+                {
+                    target: new THREE.Vector3(-1.26,  0.02, -0.76),
+                    startOffset: new THREE.Vector3(-14,  9, -12),
+                    rotOffset: new THREE.Vector3(0.9, -1.3, 0.7)
+                },
+                {
+                    target: new THREE.Vector3( 1.26,  0.02, -0.76),
+                    startOffset: new THREE.Vector3( 14, 10, -12),
+                    rotOffset: new THREE.Vector3(-1.0, 1.5, -0.6)
+                },
+                {
+                    target: new THREE.Vector3(-1.26, -0.42,  0.80),
+                    startOffset: new THREE.Vector3(-12, -6,  14),
+                    rotOffset: new THREE.Vector3(1.2, -0.9, 1.1)
+                },
+                {
+                    target: new THREE.Vector3( 1.26, -0.42,  0.80),
+                    startOffset: new THREE.Vector3( 12, -5,  14),
+                    rotOffset: new THREE.Vector3(-0.8, 1.0, -1.2)
+                }
+            ];
+
+            configs.forEach(cfg => {
+                const pMesh = makePhotovoltaicPanel();
+                pMesh.rotation.x = tilt;
+                panelsGroup.add(pMesh);
+
+                panels.push({
+                    mesh: pMesh,
+                    target: cfg.target,
+                    startOffset: cfg.startOffset,
+                    rotOffset: cfg.rotOffset,
+                    tilt: tilt
+                });
+            });
+        }
+
+        // ================= BUILD INVERTER & WIRES =================
+        function buildInverterAndConduits() {
+            const boxGeo = new THREE.BoxGeometry(0.8, 1.2, 0.45);
+            const boxMat = new THREE.MeshStandardMaterial({
+                color: 0x0f172a,
+                metalness: 0.7,
+                roughness: 0.3
+            });
+            const invBox = new THREE.Mesh(boxGeo, boxMat);
+            invBox.position.set(3.6, -0.5, -0.4);
+            invBox.castShadow = true;
+
+            const screenGeo = new THREE.PlaneGeometry(0.5, 0.35);
+            const screenMat = new THREE.MeshBasicMaterial({ color: 0x06b6d4 });
+            const screen = new THREE.Mesh(screenGeo, screenMat);
+            screen.position.set(0, 0.28, 0.23);
+            invBox.add(screen);
+
+            const path = new THREE.CatmullRomCurve3([
+                new THREE.Vector3(2.3, -0.3, 0),
+                new THREE.Vector3(3.0, -0.5, 0),
+                new THREE.Vector3(3.4, -0.9, -0.2),
+                new THREE.Vector3(3.6, -0.95, -0.4)
+            ]);
+            const tubeGeo = new THREE.TubeGeometry(path, 24, 0.045, 10, false);
+            const tubeMat = new THREE.MeshStandardMaterial({
+                color: 0xf59e0b,
+                metalness: 0.5,
+                roughness: 0.4
+            });
+            const tube = new THREE.Mesh(tubeGeo, tubeMat);
+
+            inverterGroup.add(invBox);
+            inverterGroup.add(tube);
+        }
+
+        // ================= ENERGY PARTICLES =================
+        function buildEnergyFlowParticles() {
+            const count = 240;
+            particleGeo = new THREE.BufferGeometry();
+            const coords = new Float32Array(count * 3);
+            const colors = new Float32Array(count * 3);
+
+            for (let i = 0; i < count * 3; i += 3) {
+                coords[i] = (Math.random() - 0.5) * 4.8;
+                coords[i+1] = (Math.random() - 0.5) * 0.4 - 0.1;
+                coords[i+2] = (Math.random() - 0.5) * 3.0;
+
+                if (Math.random() > 0.5) {
+                    colors[i] = 0.02; colors[i+1] = 0.71; colors[i+2] = 0.83;
+                } else {
+                    colors[i] = 0.98; colors[i+1] = 0.75; colors[i+2] = 0.14;
+                }
+            }
+
+            particleGeo.setAttribute('position', new THREE.BufferAttribute(coords, 3));
+            particleGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            const pMat = new THREE.PointsMaterial({
+                size: 0.09,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0,
+                blending: THREE.AdditiveBlending
+            });
+
+            particlePoints = new THREE.Points(particleGeo, pMat);
+            scene.add(particlePoints);
+        }
+
+        // ================= SCROLL CONTROL & 3D SYNC =================
+        function handleScroll() {
+            const total = document.documentElement.scrollHeight - window.innerHeight;
+            if (total > 0) {
+                targetScroll = Math.min(Math.max(window.scrollY / total, 0), 1);
+            }
+        }
+
+        function easeOutCubic(t) {
+            return 1 - Math.pow(1 - t, 3);
+        }
+
+        function updateSceneByScroll(progress) {
+            const pct = Math.round(progress * 100);
+            document.getElementById('hud-percentage').innerText = pct + '%';
+            document.getElementById('hud-progress-bar').style.width = Math.max(pct, 5) + '%';
+
+            const activeKW = (Math.max(0, (progress - 0.5) / 0.5) * 5.42).toFixed(2);
+            document.getElementById('hud-power').innerText = activeKW + ' kW';
+
+            const panelsFixed = Math.min(4, Math.floor(Math.max(0, (progress - 0.35) / 0.35) * 4));
+            document.getElementById('hud-panels-count').innerText = panelsFixed + ' / 4';
+
+            // HUD Stages Update (Bilingual)
+            const hudStage = document.getElementById('hud-stage-name');
+            if (currentLang === 'mr') {
+                if (progress < 0.2) hudStage.innerText = "१. काँक्रीट पायाभरणी (Foundations)";
+                else if (progress < 0.45) hudStage.innerText = "२. ॲल्युमिनियम रॅक व अँगल्स";
+                else if (progress < 0.75) hudStage.innerText = "३. ४ दिशांमधून सोलर प्लेट्स फिक्स";
+                else hudStage.innerText = "४. इन्व्हर्टर सिंक & वीजनिर्मिती सुरू";
+            } else {
+                if (progress < 0.2) hudStage.innerText = "1. Ballast Foundation Drop";
+                else if (progress < 0.45) hudStage.innerText = "2. Aluminum Rafters & Struts";
+                else if (progress < 0.75) hudStage.innerText = "3. 4-Way Solar Modules Snap";
+                else hudStage.innerText = "4. Grid Synced & Generating";
+            }
+
+            // 1. Foundation Assembly (0% -> 20%)
+            const fProg = Math.min(Math.max(progress / 0.18, 0), 1);
+            foundationGroup.position.y = (1 - fProg) * 2.2;
+            foundationGroup.children.forEach(c => {
+                c.scale.setScalar(0.3 + 0.7 * fProg);
+            });
+
+            // 2. Aluminum Framework Assembly (15% -> 45%)
+            const rProg = Math.min(Math.max((progress - 0.15) / 0.3, 0), 1);
+            frameworkGroup.position.y = (1 - rProg) * -3.2;
+            frameworkGroup.rotation.y = (1 - rProg) * 0.35;
+            frameworkGroup.children.forEach(m => {
+                m.material.opacity = rProg;
+                m.material.transparent = rProg < 1;
+            });
+
+            // 3. 4-Way Panel Fly-In (38% -> 75%)
+            const pProg = Math.min(Math.max((progress - 0.38) / 0.37, 0), 1);
+            const easeP = easeOutCubic(pProg);
+            const invP = 1 - easeP;
+
+            panels.forEach(p => {
+                p.mesh.position.x = p.target.x + p.startOffset.x * invP;
+                p.mesh.position.y = p.target.y + p.startOffset.y * invP;
+                p.mesh.position.z = p.target.z + p.startOffset.z * invP;
+
+                p.mesh.rotation.x = p.tilt + p.rotOffset.x * invP;
+                p.mesh.rotation.y = p.rotOffset.y * invP;
+                p.mesh.rotation.z = p.rotOffset.z * invP;
+            });
+
+            // 4. Inverter & Conduit (65% -> 90%)
+            const invProg = Math.min(Math.max((progress - 0.65) / 0.25, 0), 1);
+            inverterGroup.position.x = (1 - invProg) * 3.5;
+            inverterGroup.scale.setScalar(0.4 + 0.6 * invProg);
+
+            // 5. Energy Flow Particles (70% -> 100%)
+            if (progress > 0.68) {
+                const glow = Math.min((progress - 0.68) / 0.25, 1);
+                particlePoints.material.opacity = glow * 0.95;
+            } else {
+                particlePoints.material.opacity = 0;
+            }
+
+            // Cinematic Camera Positioning
+            if (!isOrbitActive) {
+                if (progress < 0.25) {
+                    const t = progress / 0.25;
+                    camera.position.x = THREE.MathUtils.lerp(2.2, 3.2, t);
+                    camera.position.y = THREE.MathUtils.lerp(4.8, 3.0, t);
+                    camera.position.z = THREE.MathUtils.lerp(11.5, 9.2, t);
+                    camera.lookAt(0, -0.3, 0);
+                } else if (progress < 0.75) {
+                    const t = (progress - 0.25) / 0.5;
+                    camera.position.x = THREE.MathUtils.lerp(3.2, -2.5, t);
+                    camera.position.y = THREE.MathUtils.lerp(3.0, 4.6, t);
+                    camera.position.z = THREE.MathUtils.lerp(9.2, 8.4, t);
+                    camera.lookAt(0, 0, 0);
+                } else {
+                    const t = (progress - 0.75) / 0.25;
+                    camera.position.x = THREE.MathUtils.lerp(-2.5, 1.2, t);
+                    camera.position.y = THREE.MathUtils.lerp(4.6, 3.2, t);
+                    camera.position.z = THREE.MathUtils.lerp(8.4, 7.8, t);
+                    camera.lookAt(0.4, -0.3, 0);
+                }
+            }
+        }
+
+        // ================= INTERACTIVE VIEWPORT CONTROLS =================
+        function toggleOrbit() {
+            isOrbitActive = !isOrbitActive;
+            controls.enabled = isOrbitActive;
+
+            const btn = document.getElementById('orbit-toggle-btn');
+            const icon = document.getElementById('orbit-icon');
+            const label = document.getElementById('orbit-label');
+
+            if (isOrbitActive) {
+                label.innerText = currentLang === 'mr' ? "कंट्रोल बंद करा" : "Exit 360°";
+                btn.classList.add('border-amber-400', 'bg-amber-500/25', 'text-amber-300');
+                icon.classList.add('animate-spin');
+            } else {
+                label.innerText = currentLang === 'mr' ? "३६०° फिरवा" : "360° Rotate";
+                btn.classList.remove('border-amber-400', 'bg-amber-500/25', 'text-amber-300');
+                icon.classList.remove('animate-spin');
+                resetCamera();
+            }
+        }
+
+        function resetCamera() {
+            camera.position.copy(defaultCamPos);
+            camera.lookAt(defaultCamLook);
+            controls.target.copy(defaultCamLook);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        // ================= ANIMATION TICKER LOOP =================
+        function animate() {
+            requestAnimationFrame(animate);
+
+            currentScroll += (targetScroll - currentScroll) * 0.085;
+            updateSceneByScroll(currentScroll);
+
+            if (particlePoints && particlePoints.material.opacity > 0.05) {
+                const arr = particleGeo.attributes.position.array;
+                for (let i = 0; i < arr.length; i += 3) {
+                    arr[i + 2] -= 0.024;
+                    arr[i + 1] += Math.sin(Date.now() * 0.003 + i) * 0.002;
+                    if (arr[i + 2] < -1.8) arr[i + 2] = 1.8;
+                }
+                particleGeo.attributes.position.needsUpdate = true;
+            }
+
+            if (currentScroll > 0.88 && !isOrbitActive) {
+                const t = Date.now() * 0.0007;
+                camera.position.x += Math.sin(t) * 0.0015;
+                camera.position.y += Math.cos(t) * 0.0015;
+            }
+
+            if (isOrbitActive) {
+                controls.update();
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        // ================= CALCULATOR & FORM HANDLER =================
+        function updateCalculations() {
+            const bill = parseInt(document.getElementById('bill-range').value);
+            document.getElementById('slider-val-text').innerText = "₹ " + bill.toLocaleString('en-IN');
+
+            let kw = "3.0 kW";
+            let sub = "₹ 78,000";
+
+            if (bill < 2000) {
+                kw = "2.0 kW";
+                sub = "₹ 60,000";
+            } else if (bill <= 4500) {
+                kw = "3.0 kW";
+                sub = "₹ 78,000";
+            } else if (bill <= 8000) {
+                kw = "5.0 kW";
+                sub = "₹ 78,000";
+            } else if (bill <= 15000) {
+                kw = "10.0 kW";
+                sub = "₹ 78,000";
+            } else {
+                kw = "15.0 - 50.0 kW+";
+                sub = "C&I Subsidy / Tax Credit";
+            }
+
+            document.getElementById('calc-kw').innerText = kw;
+            document.getElementById('calc-sub').innerText = sub;
+
+            // 25 Years = 300 months @ ~88% average solar offset
+            const totalSavings = bill * 0.88 * 12 * 25;
+            const inLakhs = (totalSavings / 100000).toFixed(2);
+            document.getElementById('calc-savings').innerText = currentLang === 'mr' 
+                ? "₹ " + inLakhs + " लाख+" 
+                : "₹ " + inLakhs + " Lakhs+";
+        }
+
+        function handleFormSubmission(e) {
+            e.preventDefault();
+            document.getElementById('form-success-overlay').classList.remove('hidden');
+        }
+
+        function resetSubmissionForm() {
+            document.getElementById('solar-lead-form').reset();
+            document.getElementById('form-success-overlay').classList.add('hidden');
+        }
+
+        window.onload = function() {
+            init3D();
+        };
+    </script>
+</body>
+</html>
